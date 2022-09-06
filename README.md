@@ -63,9 +63,23 @@ Is one or more discrete data centers with redundant power newtworking and connec
 
 * security groups: are acting as "firewall" on EC2 instances
 
-* on demand
-* Reserved Instances
-* Saving plans
-* Spot instances
-* Dedicated hosts
-* Dedicated instances
+* EC2 instances Purchasing Options
+  * on demand.
+  * Reserved Instances.
+  * Saving plans.
+  * Spot instances.
+  * Dedicated hosts.
+  * Dedicated instances.
+
+## EBS (Elastic Block Store)
+
+* An EBS volume is a network drive you can attach to your instances, it uses the network to communicate the instance, it's locked to an AZ and have a provisioned   capacity (size in GBs, and IOPS).
+* You can make a backup (snapshot) of your EBS volume at a point in time (can copy snapshots accross AZ or region).
+  * EBS Snapshot Archive.
+  * Recycle Bin for EBS Snapshots: Protect your EBS Snapshots.
+
+
+## AMI (Amazon Machine Image)
+
+* AMI are a customization of an EC2 instance.
+* an AMI creates also an EBS snapshot.
