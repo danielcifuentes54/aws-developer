@@ -77,9 +77,65 @@ Is one or more discrete data centers with redundant power newtworking and connec
 * You can make a backup (snapshot) of your EBS volume at a point in time (can copy snapshots accross AZ or region).
   * EBS Snapshot Archive.
   * Recycle Bin for EBS Snapshots: Protect your EBS Snapshots.
+* Types:
+  * SSD
+    * gp2/gp3 (SSD):
+      * cost-effective storage latency
+      * In gp3 you can independently set the IOPS and the throughput, in gp2 they're linked
+      * Max IOPS 16000 IOPS
+    * io1 / io2 (SSD)
+      * For applications that need more than 16000 IOPS
+      * Allows Multi-Attach
+  * HDD (cannot be a boot volume)
+    * st1 (HDD)
+      * Big Data, Data Warehouses, Log processing
+    * sc1 (HDD)
+      * For data that is infrequently accesed
+
 
 
 ## AMI (Amazon Machine Image)
 
 * AMI are a customization of an EC2 instance.
 * an AMI creates also an EBS snapshot.
+
+## EC2 Instance Store
+
+* It is an hard drive on the EC2 instance
+* Better I/O performance
+* Ephemeral Storage
+
+## Amazon EFS (Elastic File System)
+
+* Use security group to contrl access
+
+## High Availability & Scalability 
+
+* Vertical Scaling (scale up / down)
+* Horizontal Scaling (scale out / in)
+* High Availability
+  * load balancer (active)
+  * multi az (passive)
+
+## AWS ELB (Elastic Load Balancer)
+* types:
+  * Classic load balancer (Layer 4 - layer 5 / v1 old generation)
+  * Application load balancer (Layer 7 / v2 new generation)
+    * support redirects (from http to https for example)
+    * Allow routing tables to different target groups
+    * are great fit for microservices 
+    * alb can route to multiple target groups
+  * Network load balancer (Layer 4 (TCP/UDP) / v2 new generation)
+    * Allows one static IP per AZ
+    * Handle millions of request per second
+    * Are used for extreme performance, TCP or UDP traffic
+  * Gateway load balancer (layer 3 - network)
+    * Uses the GENEVE protocol on port 6081
+    * Inspect all the network traffic before sent to the application
+
+* Sticky session: 
+  * The client is always redirected to the same instance behind a load balancer
+  * ELB and CLB
+  * cookies:
+    * Application-based cookies
+    * Duration-based cookies
