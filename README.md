@@ -139,3 +139,29 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * cookies:
     * Application-based cookies
     * Duration-based cookies
+
+* Cross Zone Load Balancing: 
+  * Enabled by default - ALB
+  * Disabled by default - CLB / NLB (you have to pay if it's enable)
+  * Each load balancer instance distributes evenly across all registred instances all AZ
+
+* SSL
+  * Server Name Identification: solve the problem of loading multiple SSL certificates on one web server
+
+* Connection Draining CLB (Deregistration Delay ALB & NLB)
+  * Time to complete "in-flight requests" while the instance is de-registering or unhealthy
+  * The users that are already connected to that EC2 instance are going to be given enough time, which is the draining period
+
+## Auto Scaling group
+ * The goal is increased (scale out) and decreased load (scale in).
+ * It is possible to scale an ASG based on cloudwatch alarms.
+ * Scaling Policies
+  * Dynamic
+    * Target tracking scaling (ex: ASG CPU to stay)
+    * Simple / Step scaling (ex: cloudwatch alarm)
+    * Scheduled actions (crontab)
+  * Predictive Scaling
+    * continuously forecast load and schedule scaling ahead
+ * Scaling Cooldowns
+  * after a scaling activity happens you are in the cooldown period and the ASG will not launch or terminate additional instances
+ * Min size / Max size / Initial Capacity 
