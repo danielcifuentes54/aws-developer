@@ -156,9 +156,9 @@ Is one or more discrete data centers with redundant power newtworking and connec
  * The goal is increased (scale out) and decreased load (scale in).
  * It is possible to scale an ASG based on cloudwatch alarms.
  * Scaling Policies
-  * Dynamic
-    * Target tracking scaling (ex: ASG CPU to stay)
+  * Dynamic Scaling
     * Simple / Step scaling (ex: cloudwatch alarm)
+    * Target tracking scaling (ex: ASG CPU to stay)
     * Scheduled actions (crontab)
   * Predictive Scaling
     * continuously forecast load and schedule scaling ahead
