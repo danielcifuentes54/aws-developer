@@ -57,9 +57,9 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Accelerated computing.
 
 * Name Convention (m5.2xlarge):
-  * m --> instance class
-  * 5 --> generation
-  * 2xlarge -->  size  within the instance class
+  * m :arrow_right: instance class
+  * 5 :arrow_right: generation
+  * 2xlarge :arrow_right:  size  within the instance class
 
 * security groups: are acting as "firewall" on EC2 instances
 
@@ -153,15 +153,129 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * The users that are already connected to that EC2 instance are going to be given enough time, which is the draining period
 
 ## Auto Scaling group
- * The goal is increased (scale out) and decreased load (scale in).
- * It is possible to scale an ASG based on cloudwatch alarms.
- * Scaling Policies
+* The goal is increased (scale out) and decreased load (scale in).
+* It is possible to scale an ASG based on cloudwatch alarms.
+* Scaling Policies
   * Dynamic Scaling
     * Simple / Step scaling (ex: cloudwatch alarm)
     * Target tracking scaling (ex: ASG CPU to stay)
     * Scheduled actions (crontab)
   * Predictive Scaling
     * continuously forecast load and schedule scaling ahead
- * Scaling Cooldowns
+* Scaling Cooldowns
   * after a scaling activity happens you are in the cooldown period and the ASG will not launch or terminate additional instances
- * Min size / Max size / Initial Capacity 
+* Min size / Max size / Initial Capacity
+
+ ## Amazon RDS
+
+* It is a DB managed service 
+* databases:
+  * postgres
+  * MySql
+  * MariaDB
+  * Oracle
+  * Microsoft SQL Server
+  * Aurora 
+* Backups
+  * Automated backups
+  * Snapshots
+* Transaction logs 
+* RDS Storage Auto Scaling
+  * Help you increase storage on your RDS DB instance dynamically
+
+### Read Replica
+
+* Help scale your reads
+* up to 5 Read replicas
+* Within AZ, Cross AZ, or Cross Region 
+* Replication is ASYNC so reads are eventually consistent
+* Can be promoted to their own DB
+* Application must update the connection string to leverage read replicas
+* network cost:
+  * in the same region you don't pay that fee
+
+### Multi AZ
+
+* used for disaster recovery
+* Sync
+* one DNS name - automatic failover
+* increase availability
+* No manual intervention in apps
+* Not used for scaling
+* The read replica be setup as Multi AZ for Disaster Recovery (DR)
+* from single-az to multi-az
+  * Zero downtime operation (no need to stop the DB)
+  * Just click on "modify" for the database.
+
+### Amazon Aurora
+
+* Technology from AWS
+* Postgres and MySQL are both supported
+* 5X performance over MySQL and 3X over postgress
+* Storage increments up to 128 TB
+* Can have 15 replicas while MySQL 5 
+* sub 10 ms replica lag
+* it's HA Native 
+* Cost 20% more
+* 6 copies of your data across 3 AZ
+* read replicas can be become the master
+* Cluster
+  * Writer Endpoint (master)
+  * Reader Endpoint (Read Replica)
+* Shared storage volume auto expand
+* Backtrack: Restore data at any point of time without using backups
+
+## Amazon ElastiCache 
+
+* Managed cache Technologies (in-memory databases Redis or Memcached)
+* AWS takes care of OS maintenance / patching optimization, setup, configuration, monitoring, failure recovery and backups
+* Cache must have an invalidation strategy to make sure only the most current data is used in there.
+* Cache is use also for User Session Store
+
+### Redis
+
+* Multi AZ with failover
+* Read replicas to scale reads and have high availability
+* Data durability using AOF
+* Backup and restore features
+
+### Memcached
+
+* Multi node for partition of data (sharding)
+* No HA
+* Non persistent
+* No backup and restore
+* Multi-thread architecture
+
+### Elastic Cache Strategies
+
+* keep in mind :arrow_right: use cache when data changing slowly and few keys
+* cache hit: find the key in the cache
+* cache miss: key not found in the cache 
+* Design patterns:
+  * Lazy loading / Cache-aside / Lazy population:
+    * In a cache miss: read the data from the DB :arrow_right: write to the cache
+    * :white_check_mark: Only requested data is cached.
+    * :white_check_mark: Node failures are not fatal.
+    * :x: Delay for the request - 3 round trips (in cache miss case).
+    * :x: Data can be updated in the database and outdated in the cache.
+  * Write Through:
+    * Add or update cache when database is updated: insert/update DB  :arrow_right: write to the cache.
+    * :white_check_mark: Data in cache is never stale, reads are quick.
+    * :white_check_mark: Write penalty (require 2 calls) vs Read penalty (UX - an user expecting more a write longer than a read).
+    * :x: Missing data until it is added (you can combine the lazy strategy as well)
+    * :x: a lot of data will be never read.
+* Cache evictions and time-to-live (TTL)
+* evictions can occur in three ways:
+  * Delete item explicitly 
+  * Item is evicted because the memory is full and it's not recently used (LRU)
+  * You set an item time-to-live (TTL)
+    * TTL can range from few seconds to hours or days
+    * It's not a good idea when you're using **Write through**
+* Replication:
+  * Cluster mode **disabled**:
+    * One shard, all nodes have all the data
+    * Helpful to scale read performance  
+  * Cluster mode **enabled**:
+    * Data is partitioned across shards (helpful to scale writes)
+    
