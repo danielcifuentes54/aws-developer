@@ -279,3 +279,72 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Cluster mode **enabled**:
     * Data is partitioned across shards (helpful to scale writes)
     
+## Serverless
+
+* Initially... Serverless == FaaS (Function as a Service)
+* Serverless does not mean there are no serverless, it means you just don't manage / provision / see them
+* Serverless in AWS:
+  * AWS lambda.
+  * DynamoDB.
+  * S3.
+  * AWS Cognito.
+  * AWS API gateway.
+  * Amazon S3.
+  * AWS SNS & SQS.
+  * AWS Kinesis Data firehouse
+  * Aurora serverless.
+  * Step Functions.
+  * Fargate.
+
+## AWS Lambda
+
+* Virtual funtions - no servers to manage.
+* Limited by time - short executions.
+* Run on-demand.
+* Scaling is automated.
+* Benefits:
+  * Pay per request and compute time.
+    * $0,20 per 1 million requests
+    * $1,00 for 600000 GB Seconds
+  * Integrated with a whole AWS suit services, for example:
+    * API gateway.
+    * Kinesis.
+    * DynamoDB.
+    * S3.
+    * Cloudfront.
+    * Cloudwatch events, eventbridge.
+    * Cloudwatch logs.
+    * SNS.
+    * SQS.
+    * Cognito.
+  * Integrated with many programming languages:
+    * Node Js
+    * Java
+    * C# (.NET core)
+    * Golang
+    * C# / powershell
+    * Ruby
+    * Custom runtime API (Community supported, ex Rust)
+    * Lambda container image.
+      * The container must implement the Lambda runtime API.
+      * ECS / Fargate is prefered for running arbitrary Docker images.
+  * Easy monitoring (AWS cloudwatch).
+  * Easy to get more resources (up to 10gb RAM), increasing RAM will also improve CPU and network.
+* Synchronous invocations
+  * Results is returned right away.
+  * Error handling must happen client side
+  * Services:
+    * ALB, Api gateway, Cloudfront (Lambda@Edge), S3 Batch, cognito, step functions, Lex, Alexa, Kinesis Data Firehouse.
+
+### Lambda integration with ALB
+
+* The lambda function must be registered in the target group 
+* Conversions:
+  * Alb :arrow_right: Lambda: Http :arrow_right: Json.
+  * Lambda :arrow_right: ALB: Json :arrow_right: HTTP.
+* ALB Multi-Header values
+  * It is an target group attribute, HTTP headers and query string parameters that are sent wiht multiple values are shown as arrays within the Lambda event and response objects.
+  * > `http://example.com/path?name=foo&name=bar`
+  * > `"queryStringParameters": {"name":["foo","bar"]}`
+*  Resource based policy
+  * Allows our target group to invoke our lambda function
