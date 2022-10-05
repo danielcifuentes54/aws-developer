@@ -330,11 +330,26 @@ Is one or more discrete data centers with redundant power newtworking and connec
       * ECS / Fargate is prefered for running arbitrary Docker images.
   * Easy monitoring (AWS cloudwatch).
   * Easy to get more resources (up to 10gb RAM), increasing RAM will also improve CPU and network.
+  * Resource based policy
+    * It Permissions to other AWS accounts or services.
 * Synchronous invocations
   * Results is returned right away.
   * Error handling must happen client side
-  * Services:
+  * Some services:
     * ALB, Api gateway, Cloudfront (Lambda@Edge), S3 Batch, cognito, step functions, Lex, Alexa, Kinesis Data Firehouse.
+* Asynchronous invocations
+  * you don't need to wait for the result
+  * Some services: S3, SNS, Cloudwatch events / event bridge, codecommit, codepipeline
+  * you can configurate a DLQ in the Lambda.
+* Event Source Mapping
+  * Records need to be polled from the source.
+  * Lambda is invoked synchronously.
+  * Services:
+    * Streams:
+      * Kinesis Data Streams.
+      * DynamoDB streams.
+    * Queue
+      * SQS & SQS FIFO queue
 
 ### Lambda integration with ALB
 
@@ -348,3 +363,23 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * > `"queryStringParameters": {"name":["foo","bar"]}`
 *  Resource based policy
   * Allows our target group to invoke our lambda function
+
+### Lambda@Edge
+
+* You can use lambda to change cloudfront requests and responses:
+  * Viewer Request.
+  * Origin Request.
+  * Origin Response.
+* Some Use cases:
+  * Bot mitigation at the edge.
+  * Real time image transformation.
+  * User Authentication and Authorization.
+
+### Lambda - Eventbridge
+
+* You can configure lambda to be executed by a cloudwatch event or an schedule.
+
+### Lmabda - S3
+
+* Allows us execute a Lambda when an action is made in an configurated S3 bucket.
+  
