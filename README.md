@@ -278,6 +278,58 @@ Is one or more discrete data centers with redundant power newtworking and connec
     * Helpful to scale read performance  
   * Cluster mode **enabled**:
     * Data is partitioned across shards (helpful to scale writes)
+
+## Route53
+
+* Is also a domain register
+* Ability to check the health of your resources
+* 100% availability SLA
+* If you buy your domain in a 3rd party registrar, you can still use Route 53 as the DNS Service provider
+* Record types:
+  * A :arrow_right: IPv4
+  * AAAA :arrow_right: IPv6
+  * CNAME :arrow_right: hostname - Only for non root domain
+  * NS :arrow_right: Name servers
+* Hosted Zone 
+  * A container for records that define how to route traffic to a domain and its subdomain 
+  * public and private
+* Commands:
+  * > nslookup `example.com`
+  * > dig `example.com`
+* TTL 
+  * Is mandatory for each DNS record, except for alias recrods
+* Alias
+  * Allows root domain
+  * native healthcheck
+* Healthcheck:
+  * Only for public resources
+  * Automated DNS Failover
+  * Allows combine the results of multiple health checks into a single health check
+* routing policy:
+  * simple: 
+    * Single resource and multiple resources (The client recive all the resources). 
+    * It can't be associated with healthchecks.
+    * 
+  * weighted: 
+    * Assign each record a relative weigh.
+    * It can be associated with healthchecks.
+    * Use case: Load balancing between regions
+  * Latency:
+    * redirect the resource that has the least latency close to us.
+  * failover:
+    * Allows to asign a primary and a secondary resource.
+  * Geolocation:
+    * Specify location by continent, country or by US state.
+  * Geoproximity:
+    * Is really helpful when you need the traffic from one region to another, by increasing the bias.
+    * Traffic Policy:
+      *  Simplify the process of creating and maintaining records in large and complex configurations
+  * Multi-value
+    * Return multiple values/resources
+    * can be associated with health checks
+    * It is not a substitute for ELB
+
+
     
 ## Serverless
 
