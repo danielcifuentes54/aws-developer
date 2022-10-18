@@ -329,7 +329,24 @@ Is one or more discrete data centers with redundant power newtworking and connec
     * can be associated with health checks
     * It is not a substitute for ELB
 
+## VPC
 
+* virtual private cloud (regional resource)
+* subnet: allow partition your network inside your vpc (AZ resource), it could be private or public.
+* Internet Gateways: helps our VPC instances connect with the internet.
+* NAT Gateways: allow your intances in your private subnets to access the internet while remaining private.
+* Netowrk ACL:  A firewalll which controls traffic from and to subnet / Allow and deny rules.
+* Security Groups: A firewall that controls traffic to and from an ENI (elastic network interface) / an EC2 instance.
+* VPC peering: Connect two VPC, privatily using AWS' network
+  * Must no have overlapping CIDR 
+  * non transitive
+* VPC flow logs: network traffic logs.
+* VPC endpoints: Allow you to connect to AWS services using a private network (S3 / DynamoDB)
+* VPC endpoint interface (ENI): Allow you to connect to AWS services using a private network (Other services).
+* Site to site VPN: connect an on-premises VPN to AWS
+  * goes over the public internet
+* Direct connect (DX): Establish a physical connection between on-premises and AWS
+  * goes over the private internet
     
 ## Serverless
 
