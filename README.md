@@ -347,6 +347,44 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * goes over the public internet
 * Direct connect (DX): Establish a physical connection between on-premises and AWS
   * goes over the private internet
+
+## S3
+
+* use for backup storage, disaster recovery, archive, application hosting, media hosting, data lakes, static website
+* buckets have a globally unique name and are define at the region level!.
+* you can see all the buckets acrross the regions but each bucket is asign to one region.
+* Objects (files): have a key composed by the full path
+  * Max object size 5TB
+  * if upload more than 5GB use multipart
+* Security:
+  * User based (IAM Policies)
+  * Resource based 
+    * Bucket policies (allow cross account):
+      * JSON based policies
+    * Object access control list (ACL)
+    * Bucket access control list (ACL)
+  * Encryption: encrypt objects.
+* Versioning:
+  * It is enabled at bucket level.
+  * Same key overwrite will change the "version"
+  * Protect against unintended deletes (ability to restore)
+* Replication:
+  * Must enable versioning in source and destination buckets
+  * Cross-Region replication (CRR): for compliance, lower latency, replication across accounts
+  * Same-Region replication (SRR): for log aggreataion, live replication between product and test accounts
+  * Copy is asynchronous.
+  * S3 batch replication (To copy existing objects)
+  * There's no a chaining replication 
+* Storage Classes:
+  * Amazon S3 standard - General purpose
+  * Amazon S3 Standard-Infrequent Access (IA)
+  * Amazon S3 one-zone Infrequent Access 
+  * Amazon S3 Glacier Instant Retrieval
+  * Amazon S3 Glacier Flexible Retrieval
+  * Amazon S3 Glacier Deep Archive.
+  * Amazon S3 Intelligent Tiering.
+* Durability (99,99999999999%) and  Availability (99,99%).
+
     
 ## Serverless
 
