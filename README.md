@@ -24,7 +24,7 @@ Is one or more discrete data centers with redundant power newtworking and connec
 ---
 ## IAM (Identity and Access Management)
 
-*  Statement: statement in an IAM Policy consists of Sid, Effect, Principal, Action, Resource, and Condition.
+* Statement: statement in an IAM Policy consists of Sid, Effect, Principal, Action, Resource, and Condition.
 * Users: mapped to a physical user has a password for AWS console.
 * Groups: contains users
 * Policies: JSON document that outlines for users and groups.
@@ -44,6 +44,10 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * CLI - Cloud shell
   * SDK
 * Cloud shell: is a browser-based shell that makes it easy to securely manage, explore, and interact with your AWS resources. it takes the credentials and permissions from the user who is logged in.
+* Check Polices Permissions:
+  * Policy Simulator
+  * --dry-run
+  * aws sts decode-authorization-message: decode the authorization messages errors.
 
 ---
 
@@ -70,6 +74,9 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Spot instances.
   * Dedicated hosts.
   * Dedicated instances.
+
+* EC2 Instance Metadata: get metadata from an EC2 instance
+  * `curl http://169.254.169.254/latest/meta-data`
 
 ## EBS (Elastic Block Store)
 
@@ -385,7 +392,36 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Amazon S3 Intelligent Tiering.
 * Durability (99,99999999999%) and  Availability (99,99%).
 
-    
+## AWS SDK
+
+* perform actions on AWS directly from your applications code
+* AWS CLI uses the python SDK
+
+## AWS Limits (Quotas)
+
+* API rate limits
+  * Exponential Backoff (ThrottlingException)
+    * Retry mechanism already included in AWS SDK  API calls
+    * Custom retries, each retry should take twice as long
+* Service Quotas
+
+## AWS CLI credentials provider chain
+
+* The CLI will look for credentials in this order (precedence):
+  1. Command line options.
+  2. Environment variables.
+  3. CLI credentials file.
+  4. CLI configuration file.
+  5. Container credentials.
+  6. Instance profile credentials.
+* Use IAM Roles as much as posible.
+
+## AWS signature v4 signing
+
+* AWS protocol
+* API calls needs to be signed with your credentials and the process is called SigV4
+
+
 ## Serverless
 
 * Initially... Serverless == FaaS (Function as a Service)
