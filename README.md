@@ -371,6 +371,10 @@ Is one or more discrete data centers with redundant power newtworking and connec
     * Object access control list (ACL)
     * Bucket access control list (ACL)
   * Encryption: encrypt objects.
+  * S3 MFA Delete
+  * S3 Access Logs
+  * S3 Presigned URLs
+  * S3 access points
 * Versioning:
   * It is enabled at bucket level.
   * Same key overwrite will change the "version"
@@ -391,6 +395,44 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Amazon S3 Glacier Deep Archive.
   * Amazon S3 Intelligent Tiering.
 * Durability (99,99999999999%) and  Availability (99,99%).
+
+### S3 Lifecycle Rules
+
+* Transition Actions: Transition to another storage class
+* Expirations Actions: configure objects to expire (delete) after some time.
+* S3 Analytics - Storage class analytics: Help you decide when to transition objects to the right storage class
+
+### S3 Event Notifications
+
+* you can create as many "s3 events" as desired, this notifications react to events in S3 like S3:ObjectCreated, S3:ObjectRemoved... this events could be send to SQS, SNS, Lambda and event bridge.
+
+### S3 Baseline Performance
+
+* Automatically scales to high requests, latency 100-200 ms
+* 3500 PUT/COPY/POST/DELETE and 5500 GET/HEAD requests per second per prefix in a bucket
+* performance best practices:
+  * Multi-part upload.
+  * S3 transfer acceleration: Trasnfering file to an AWS Edge Location.
+  * S3 byte-range fetches: Parallelize GETS.
+
+### S3 Select & Glacier Select
+
+* Retrieve less data using SQL by performing server-side filtering
+* Can filter by rows & columns (Simple SQL statements).
+
+### S3 - Object Encryption
+
+* Server Side Encryption (SSE)
+ * SSE-S3 (Managed by AWS)
+ * SSE-KMS
+  * :white_check_mark: Audit key usage CloudTrail
+  * :x: When you download, it calls the Decrypt KMS API (Quotas)
+ * SSE-C (Managed by Customer)
+* Client-Side Encryption
+
+### S3 CORS (Cross-Origin Resource Sharing)
+
+* Web browser based mechanism to allow requests to other origins while visiting the main origin.
 
 ## AWS SDK
 
