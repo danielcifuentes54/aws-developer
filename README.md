@@ -463,6 +463,30 @@ Is one or more discrete data centers with redundant power newtworking and connec
 * AWS protocol
 * API calls needs to be signed with your credentials and the process is called SigV4
 
+## AWS Cloudfront
+
+* Content delivery network (CDN), it has DDoS protection and improves read performance, content is cached at the edge.
+* Origins: S3 buckets, Custom origin (HTTP).
+* Caching & Invalidations: 
+  * Cache based on: headers, session, Query String paramters
+  * Maximize cache hits by separating static and dynamic distributions.
+  * Control the TTL (0 seconds to 1 year)
+  * You can invalidate part of the cache using the CreateInvalidation API
+* Security: 
+  * Geo Restriction.
+  * HTTPS: Viewer and Origin protocol Policy
+  * CLoudFront Signed URL / Signed cookies:
+    * You should create an application that use the SDK in order to generate the signed URL/Cookie
+    * CLoudFront Signed URL: 1 file per signed URL
+    * CloudFront Signed cookies: multiple files per signed cookie
+    * Signers:
+      * (Recommended) Trusted Key groups
+      * cloud frint key pair (need the root account)
+  * Te cost of the data out per edge location varies.
+  * Price classes:
+    * Price Class All.
+    * Price Class 200.
+    * Price Class 100.
 
 ## Serverless
 
