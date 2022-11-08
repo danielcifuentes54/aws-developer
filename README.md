@@ -487,6 +487,73 @@ Is one or more discrete data centers with redundant power newtworking and connec
     * Price Class All.
     * Price Class 200.
     * Price Class 100.
+  * Multiple Origin: To route to different kind of origins based on the content type.
+  * Origins groups: To increase high-availability and do failover
+
+## ECS (Elastic Container Service)
+
+* Launch Types:
+  * EC2 Launch type: 
+    * you must provision & maintain the infrastructure (EC2 instances)
+    * Each EC2 instance must the run the ECS agent 
+  * Autoscaling group scaling:
+    * ECS service average CPU
+    * ECS service average Memory
+    * ALB Request count
+    * Target tracking 
+    * Step Scaling
+    * Scheduled Scaling
+  * ECS Cluster Capacity provider
+  * Fargate Launch Type:
+    * You do not provision the infrastructure 
+  * AWS just runs ECS tasks based on the CPU and memory
+* IAM Roles for ECS:
+  * EC2 instance profile.
+  * ECS task role.
+* Data volumes: Mount EFS file systems onto ECS tasks
+* Rolling updates: We can control how many tasks can be started and stopped, and in which order.
+* ECS task definition: 
+  * Metadata in Json form to tell ECS how to run a docker container
+  * Can define up to 10 containers per task
+  * One IAM Role Per task definition
+  * Data volumens (Bind mounts): Shared data between multiple containers in the same task definition (sidecars containers)
+  * Instance task definition
+    * image name
+    * port binding
+    * Memory and CPU required
+    * Environment variables:
+      * Hardcoded
+      * SSM parameter store
+      * Secret manager
+      * Environment files (Bulk) - S3
+    * Network information
+    * ECS task placement
+      * strategies:
+        * Binpack
+        * Random
+        * Spread
+    * IAM role
+    * Loggin configuration
+  * Fargate task definition
+    * Each task has a unique private ip
+    * only define the container port
+
+## Elastic Beanstalk
+
+* Elastic Beanstalk is a developer centric view of deploying an application on AWS.
+* Components:
+  * Application
+  * Application version
+  * Environment
+* Architecture:
+  * Single instance: great for dev
+  * High Availability with ELB: great for prod.
+* [Deployments modes] (https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.deploy-existing-version.html):
+  * All At Once:  deploy all in one go (Downtime)
+  * Rolling: Application is running below capacity
+  * Rolling with additional batches: Application is running at capacity
+  * Immutable: New code is deployed to new instances on temporary ASG
+  * Traffic Splitting: Canary Testing
 
 ## Serverless
 
