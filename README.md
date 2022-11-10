@@ -548,12 +548,25 @@ Is one or more discrete data centers with redundant power newtworking and connec
 * Architecture:
   * Single instance: great for dev
   * High Availability with ELB: great for prod.
-* [Deployments modes] (https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.deploy-existing-version.html):
+* [Deployments modes](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.deploy-existing-version.html):
   * All At Once:  deploy all in one go (Downtime)
   * Rolling: Application is running below capacity
   * Rolling with additional batches: Application is running at capacity
-  * Immutable: New code is deployed to new instances on temporary ASG
+  * Inmutable: New code is deployed to new instances on temporary ASG
   * Traffic Splitting: Canary Testing
+* CLI: We can install an additional CLI called the "EB cli" which makes working with Beanstalk from the CLI easier.
+* Lifecycle: To phase out old application version, use a lifecycle policy.
+* Extensions: All the parameters set in the UI can be configured with code using files.
+* Cloudformation: under the hood, Elastic beanstalk relies on cloudformation
+* Elastic Beanstalk allows us to clone an entire environment
+* Elastic Beanstalk Migration: 
+  * you can't change the ELB therefore you should create a new environment (no clone).
+  * Decouple RDS
+* Docker: 
+  * Single:
+    * provide dockerfile
+  * Multi:
+    * provide dockerun.aws.json (contain a task definition that will be on ECS)
 
 ## Serverless
 
