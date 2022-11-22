@@ -568,6 +568,23 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Multi:
     * provide dockerun.aws.json (contain a task definition that will be on ECS)
 
+## AWS CI/CD
+
+* AWS CodeCommit
+  * code
+* AWS CodeBuild
+  * Build & Test
+  * Build instructions: buildspec.yml
+* AWS CodeDeploy
+  * Deploy
+  * Provision
+  * Servers must be running the CodeDeploy agent
+* AWS CodePipeline
+  * Orchestration
+  * Consists of stages
+  * Each pipeline stage can create artifacts
+  * Each stage can have many action groups and each action groups can execute multiple actions in parallel
+
 ## Serverless
 
 * Initially... Serverless == FaaS (Function as a Service)
