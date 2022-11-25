@@ -585,6 +585,36 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Each pipeline stage can create artifacts
   * Each stage can have many action groups and each action groups can execute multiple actions in parallel
 
+## AWS Cloudformation
+
+* Declarative IaC to create AWS infrastructure
+* Resources
+* Parameters
+  * !Ref
+* Mappings
+  * !FindInMap
+* Outputs
+  * It's the best way to perform some collaboration cross stack
+  * Export !ImportValue
+* Conditions
+  * Control the creation of resources or outputs based on a condition
+* Intrisic functions:
+  * Fn::Ref :arrow_right: !Ref
+  * Fn::GetAtt :arrow_right: !GetAtt
+  * Fn::FindInMap :arrow_right: !FindInMap
+  * Fn::ImportValue :arrow_right: !ImportValue
+  * Fn::Join :arrow_right: !Join
+  * Fn::Sub :arrow_right: !Sub
+  * Fn::And :arrow_right: !And
+  * Fn::Equals :arrow_right: !Equals
+  * Fn::If :arrow_right: !If
+  * Fn::Not :arrow_right: !Not
+  * Fn::Or :arrow_right: !Or
+* ChangeSets: what changes before it happens 
+* NestedStacks: They allow you to isolate repeated patterns / common components in separated stacks and call them from other stacks
+* StackSets: Create, update or delete stacks across multiple accounts or regions
+* Drifts: Detects the manual changes over the stack created 
+
 ## Serverless
 
 * Initially... Serverless == FaaS (Function as a Service)
