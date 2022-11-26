@@ -615,6 +615,53 @@ Is one or more discrete data centers with redundant power newtworking and connec
 * StackSets: Create, update or delete stacks across multiple accounts or regions
 * Drifts: Detects the manual changes over the stack created 
 
+## AWS CloudWatch
+### AWS CloudWatch Metrics
+
+* Cloudwtach provides metrics for every service in AWS
+  * Metrics by default
+    * EC2 detail monitoring (metrics every 1 minute)
+  * Custom metrics
+    * Possibility to define and send your own custom metrics to CloudWatch
+
+### AWS CloudWatch Logs
+
+* Log group
+* Log stream
+* Cloudwatch Logs can send logs to:
+  * Amazon S3
+  * Kinesis Data Streams
+  * Kinesis Data Firehouse
+  * AWS Lambda
+  * Elasticsearch
+* Metric filters can be used to trigger CloudWatch alarms.
+* Subscription filter
+* AWS CloudWatch Agent
+  * Cloudwatch logs agent 
+    * old version, only to send logs 
+  * Unified agent (New version)
+    * more granularity
+
+### AWS CloudWatch Alarms
+
+* Used to trigger notifications for any metric
+* Alarm States:
+  * OK
+  * INSUFFICIENT_DATA
+  * ALARM
+* Targets:
+  * SNS
+  * EC2
+  * Auto scaling
+* Composite Alarms
+  * monitoring the states of multiple others alarms
+* you can test alarms using the CLI
+
+### AWS CloudWatch Events
+
+* Intercept events from AWS services
+* EventBridge is the next generation of the cloudwatch
+
 ## Serverless
 
 * Initially... Serverless == FaaS (Function as a Service)
