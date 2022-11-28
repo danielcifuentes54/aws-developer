@@ -623,11 +623,14 @@ Is one or more discrete data centers with redundant power newtworking and connec
     * EC2 detail monitoring (metrics every 1 minute)
   * Custom metrics
     * Possibility to define and send your own custom metrics to CloudWatch
+* High-Resolution Custom Metrics can have a minimum resolution of 1 second
+* A CloudWatch Alarm set on a High-Resolution Custom Metric can be triggered as often as 10 seconds
 
 ### AWS CloudWatch Logs
 
 * Log group
 * Log stream
+* By default, they never expire.
 * Cloudwatch Logs can send logs to:
   * Amazon S3
   * Kinesis Data Streams
@@ -642,6 +645,30 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Unified agent (New version)
     * more granularity
 
+## AWS Messagin
+
+* SQS: Queue model
+* SNS: pub/sub model
+* Kinesis: real-time streaming model
+
+## SQS
+
+* Producer: send messages
+* Consumer: poll messages
+* Fully managed service, used to decouple applications
+* Standard
+  * Can have duplicate messages
+  * Can have out of order
+* SQS queue access policies
+  * Cross account access
+  * Cross service access
+* Message visibility timeout
+  * After a message is polled by a consumer, it becomes invisible to other consumers
+  * A conusmer could call the ChangeMessageVisibility API to get more time
+* DLQ (Dead Letter Queue)
+  * If a consumer fails to process a message the message goes back to the queue.
+  * After the MaximumReceives threshold is exceeded, the message goes into DLQ
+  * The message retention period should have enough time to process  or debug the messages
 ### AWS CloudWatch Alarms
 
 * Used to trigger notifications for any metric
@@ -662,6 +689,33 @@ Is one or more discrete data centers with redundant power newtworking and connec
 * Intercept events from AWS services
 * EventBridge is the next generation of the cloudwatch
 
+## AWS X-Ray
+
+* Automated trace analisys & central service map visualization
+* Latency, errors and fault analisys
+* Request tracking across distrubuted systems
+* How to enable it?
+  * Your code must import the AWS X-Ray SDK
+  * Install the X-Ray deamon or Enable X-Ray AWS integration
+* Sampling Rules
+* W-Ray writes APIs (Used by the X-Ray deamon)
+
+## AWS ClousTrail
+
+* Audit API calls made by users / services / AWS console
+* Provides governance, compliance and audit for you AWS account 
+* Enabled by default
+* Events:
+  * Management Events:
+    * Read Events & Write Events on resources in your AWS account
+  * Data Events
+    * It's not enabled by default
+    * Amazon S3 object-level activity (ex:GetObject,DeleteObject,PutObject)
+  * Cloudtrail Insights
+    * Detect unusual activity in your account
+    * Analyzes normal management events to create a baseline :arrow_right: then continously analyzes write events to detect unusual patterns
+* Retention
+  * Stored for 90 days, to keep beyond this period log them to S3 and use Athena
 ## Serverless
 
 * Initially... Serverless == FaaS (Function as a Service)
