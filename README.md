@@ -645,30 +645,6 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Unified agent (New version)
     * more granularity
 
-## AWS Messagin
-
-* SQS: Queue model
-* SNS: pub/sub model
-* Kinesis: real-time streaming model
-
-## SQS
-
-* Producer: send messages
-* Consumer: poll messages
-* Fully managed service, used to decouple applications
-* Standard
-  * Can have duplicate messages
-  * Can have out of order
-* SQS queue access policies
-  * Cross account access
-  * Cross service access
-* Message visibility timeout
-  * After a message is polled by a consumer, it becomes invisible to other consumers
-  * A conusmer could call the ChangeMessageVisibility API to get more time
-* DLQ (Dead Letter Queue)
-  * If a consumer fails to process a message the message goes back to the queue.
-  * After the MaximumReceives threshold is exceeded, the message goes into DLQ
-  * The message retention period should have enough time to process  or debug the messages
 ### AWS CloudWatch Alarms
 
 * Used to trigger notifications for any metric
@@ -716,6 +692,48 @@ Is one or more discrete data centers with redundant power newtworking and connec
     * Analyzes normal management events to create a baseline :arrow_right: then continously analyzes write events to detect unusual patterns
 * Retention
   * Stored for 90 days, to keep beyond this period log them to S3 and use Athena
+
+## AWS Messaging
+
+* SQS: Queue model
+* SNS: pub/sub model
+* Kinesis: real-time streaming model
+
+## SQS
+
+* Producer: send messages
+* Consumer: poll messages
+* Fully managed service, used to decouple applications
+* Standard
+  * Can have duplicate messages
+  * Can have out of order
+* SQS queue access policies
+  * Cross account access
+  * Cross service access
+* Message visibility timeout
+  * After a message is polled by a consumer, it becomes invisible to other consumers
+  * A conusmer could call the ChangeMessageVisibility API to get more time
+* DLQ (Dead Letter Queue)
+  * If a consumer fails to process a message the message goes back to the queue.
+  * After the MaximumReceives threshold is exceeded, the message goes into DLQ
+  * The message retention period should have enough time to process  or debug the messages
+* Delay Queues
+  * Delay a message (consumers don't see it inmmediately) up to 15 min.
+* Long Polling: 
+  * "Wait" (1 sec to 20 sec) for messages to arrive if there are none in queue
+  * Long polling is preferable  to short polling 
+  * ReceiveMessageWaitTimeSeconds
+* SQS extended client:
+  * Use S3 to save largest files and send only the metadata in SQS
+* FIFO Queues
+  * Messages will be delevired in order
+  * 300 msg/s without batching, 3000 msg/s with
+  * Exactly once
+  * Deduplication
+    * Content-based deduplication: will do a SHA-256 hash of the message body
+    * Explicity provide a Message Deduplication ID
+  * Message Grouping
+    * Ordering  at the level of subsets of messages, specify different values for MessageGroupID
 ## Serverless
 
 * Initially... Serverless == FaaS (Function as a Service)
