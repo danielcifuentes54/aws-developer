@@ -734,6 +734,59 @@ Is one or more discrete data centers with redundant power newtworking and connec
     * Explicity provide a Message Deduplication ID
   * Message Grouping
     * Ordering  at the level of subsets of messages, specify different values for MessageGroupID
+
+## SNS
+
+* Pub / Sub
+* Send message to many receivers
+* up to 12'500.000 subscription per topic
+* Fan Out:
+  * Push once in SNS, receive in all SQS queues or services subscribers
+* Messaging filter: you can filter the messages that will be send to the subscibers
+* FIFO: you can use FIFO in SNS
+
+## Kinesis
+
+* Collect, process anda analyze steaming data in real-time
+
+### Kinesis Data Streams
+
+* Capture, process, and store data stream 
+* Each stream have multiple shards
+* Retetion between 1 to 365 days
+* Once data is inserted in Kinesis, it can't be deleted (inmutability)
+* Producers send records with the following information:
+  * Partition key 
+  * Data blob
+* Consumers receive records with the following information:
+  * Partition key 
+  * Sequence no.
+  * Data blob
+* capacity mode
+  * Provisioned mode
+  * On-demand mode
+* Hot partition: Use highly distributed partition key to avoid its
+* ProvisionedThroughputExceeded:
+  * Use highly distributed partition key
+  * Retries with exponential backoff
+  * Increase shards (Scaling)
+* KCL - Kinesis Client Library:
+  * Helps read from a Kinesis Data Stream with distributed applications sharing the read workload
+  * Progress is checkpointed into DynamoDB
+* Shard Spliting: use to divide a hot shard
+* Merging Shards: Group two shards with low traffic
+
+
+### Kinesis Data Firehouse
+
+* Load data streams into AWS data stores
+### Kinesis Data Analytics
+
+* Analyze data streams with SQL or Apache Flink
+
+### Kinesis Video Streams
+
+* Capture, process, and store video stream 
 ## Serverless
 
 * Initially... Serverless == FaaS (Function as a Service)
