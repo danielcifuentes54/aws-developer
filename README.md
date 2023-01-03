@@ -780,6 +780,11 @@ Is one or more discrete data centers with redundant power newtworking and connec
 ### Kinesis Data Firehouse
 
 * Load data streams into AWS data stores
+* Serverless
+* Pay for data going through Firehouse
+* Near real time
+* Supports custom data transformations using AWS Lambda
+* Can send failed or all data to a backup S3 bucket
 ### Kinesis Data Analytics
 
 * Analyze data streams with SQL or Apache Flink
