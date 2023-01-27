@@ -704,6 +704,7 @@ Is one or more discrete data centers with redundant power newtworking and connec
 * Producer: send messages
 * Consumer: poll messages
 * Fully managed service, used to decouple applications
+* You can configure the Amazon SQS message retention period to a value from 1 minute to 14 days. The default is 4 days.
 * Standard
   * Can have duplicate messages
   * Can have out of order
@@ -734,6 +735,7 @@ Is one or more discrete data centers with redundant power newtworking and connec
     * Explicity provide a Message Deduplication ID
   * Message Grouping
     * Ordering  at the level of subsets of messages, specify different values for MessageGroupID
+  * You can have as many consumers as "MessageGroupID" for your SQS FIFO queues.
 
 ## SNS
 
@@ -744,6 +746,7 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Push once in SNS, receive in all SQS queues or services subscribers
 * Messaging filter: you can filter the messages that will be send to the subscibers
 * FIFO: you can use FIFO in SNS
+* Which of the following is NOT a supported subscriber for AWS SNS? --> Kinesis Data Firehose is now supported, but not Kinesis Data Streams.
 
 ## Kinesis
 
@@ -775,7 +778,7 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Progress is checkpointed into DynamoDB
 * Shard Spliting: use to divide a hot shard
 * Merging Shards: Group two shards with low traffic
-
+* Enhanced Fanout consumer --> To increase the read throughput for Kinesis Data Streams consumers up to 2 MB/s per consumer per shard
 
 ### Kinesis Data Firehouse
 
@@ -843,8 +846,13 @@ Is one or more discrete data centers with redundant power newtworking and connec
       * ECS / Fargate is prefered for running arbitrary Docker images.
   * Easy monitoring (AWS cloudwatch).
   * Easy to get more resources (up to 10gb RAM), increasing RAM will also improve CPU and network.
+* Permissions
+  * Lambda Execution Role (IAM Role)
+    * Grants the lambda function permissions to AWS services / resources
+    * There's sample managed policies for lambda (e.g AWSLambdaBasicExecutionRole)
+    * Best practice: create one Lambda Execution Role per function
   * Resource based policy
-    * It Permissions to other AWS accounts or services.
+    * To give other  accounts and AWS services permission to use your lambda resources.
 * Synchronous invocations
   * Results is returned right away.
   * Error handling must happen client side
@@ -853,7 +861,7 @@ Is one or more discrete data centers with redundant power newtworking and connec
 * Asynchronous invocations
   * you don't need to wait for the result
   * Some services: S3, SNS, Cloudwatch events / event bridge, codecommit, codepipeline
-  * you can configurate a DLQ in the Lambda.
+  * you can configurate a DLQ in the Lambda (also you can configure retries to the messages before send them to the DLQ).
 * Event Source Mapping
   * Records need to be polled from the source.
   * Lambda is invoked synchronously.
@@ -863,6 +871,16 @@ Is one or more discrete data centers with redundant power newtworking and connec
       * DynamoDB streams.
     * Queue
       * SQS & SQS FIFO queue
+* Lambda Destinations
+  * Send the result of an asynchronus invocation or the failure of an event mapper into somewhere
+  * Asynchronus destinations:
+    * Amazon SQS
+    * Amazon SNS
+    * AWS Lambda
+    * Amazon EventBridge Bus
+  * Event Source Mapping Destinations:
+    * Amazon SQS
+    * Amazon SNS
 
 ### Lambda integration with ALB
 
@@ -895,4 +913,64 @@ Is one or more discrete data centers with redundant power newtworking and connec
 ### Lmabda - S3
 
 * Allows us execute a Lambda when an action is made in an configurated S3 bucket.
-  
+
+## AWS Serverless - DynamoDB
+
+* It's a NoSQL database fully managed, highly available with replication across multiple AZ.
+* NoSQL databases scale horizontally.
+* Each table has a primary key (must be decided at creation time).
+* Maximum size of an item is 400KB.
+* Primary Keys:
+  * Partition Key (HASH) 
+  * Partition Key + Sort Key (HASH + RANGE)
+* you can choose between strongly consistent read vs eventually consistente read 
+* Capacity Modes:
+  * Provisioned mode:
+    * you need to plan capacity beforehand 
+    * WCU: Write capacity units :arrow_right: one WCU represent one write per second for an item up to 1 KB
+    * RCU: Read capacity units:
+      * :arrow_right: one RCU represent one strongly consistent read per second for an item up to 4 KB
+      * :arrow_right: one RCU represent two eventually consistent reads per second for an item up to 4 KB
+  * On-demand mode
+* Partitions internal
+  * WCUs and RCUs are spread evenly across partitions
+* Basic API's:
+  * PutItem
+  * UpdateItem
+  * GetItem
+  * Query
+  * Scan
+  * DeleteItem
+  * DeleteTable
+  * BatchWriteItem
+  * BatchGetItem
+* Local Secondary Index (LSI)
+  * Alternative sort key
+  * Uses the WCUs and RCUs of the main table
+* Global Secondary Index (GSI)
+  * Alternative primary key
+  * Global Secondary Index (GSI) uses an independent amount of RCU and WCU and if they are throttled due to insufficient capacity, then the main table will also be throttled.
+* PartiQL: use SQL-like syntax to manipulate DynamoDB
+* Optimistic Locking:
+  * Which feature of DynamoDB allows you to achieve Optimistic Locking :arrow_right: Conditional Writes.
+* DynamoDB Accelerator (DAX)
+  * Fully-managed, highly available, seamless in-memory cache for DynamoDB
+  * Solves the "hot key" problem
+  * 5 minutes TTL for cache 
+  * ElasticCache vs DAX: 
+    * ElastiCache: Store aggregation result
+    * DAX: Individuals object cache / Query & Scan cache
+* Dynamo Streams: allows you to capture a time-ordered sequence of item-level modifications in a DynamoDB table. It's integrated with AWS Lambda so that you create triggers that automatically respond to events in real-time.
+* Dynamo TTL: 
+  * Automatic delete items after an expiry timestamp
+* Dynamo Transactions:
+  * Provides Atomicity, Consistency, Isolation and Durability (ACID)
+  * Consumes 2x WCUs & RCUs
+* DynamoDB as session State cache
+* Partition Strategies:
+  * A strategy that allows better distribution of items evenly across partitions is add  a suffix to a partition key value
+* Writes types
+  * Cocurrent writes.
+  * Conditional writes.
+  * Atomic writes.
+  * Batch writes.
