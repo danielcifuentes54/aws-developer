@@ -881,6 +881,44 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Event Source Mapping Destinations:
     * Amazon SQS
     * Amazon SNS
+* We can use environment variables
+* Lambda Logging & Monitoring:
+  * CloudWatch logs
+  * CloudWatch Metrics
+* Tracing with X-Ray
+  * Runs the  X-Ray daemon for you.
+  * Uses env to communicate with X-Ray
+    * AWS_XRAY_DAEMON_ADDRESS
+* Performance
+  * from 128 MB to 10 GB in 1MB increments
+  * At 1792 MB a function has the equivalent of one full vCPU
+  * If your application is CPU-bound (computation heavy), increase RAM
+  * Timeout: default 3 seconds, maximum 900 seconds (15 minutes)
+  * Lambda execution context:
+    * temporary runtime environment that initializes any external dependencies of your lambda code
+    * it is maintained for some time in anticipation of anothe lambda function invocation
+      * A good practice is initialize outside the handler (for example DB connection)
+    * It includes the /tmp directory (Max size 10Gb)
+      * The directory content remains when the execution context is frozen.
+      * for permanent persistent of object use S3
+* Concurrency limit: up to 1000 (it depends of AWS account) concurrent executions (all lambdas functions)
+* Provisioned Concurrency: The cold start never happens and all invocations have low latency
+* Dependencies: You need to install the packages alongside your code and zip it together (if less than 50MB else S3 first)
+* Lambda & Cloudformation:
+  - Inline
+  - S3
+* Lambda Layers:
+  * Custom runtimes
+  * Externalize Dependencies to re-use them
+* Lambda Container Images: Base image must implement the Lambda Runtime API
+* AWS Lambda Versions and Aliases:
+  * Version = code + configuration (nothing can be changed (immutable))
+  * Alias = pointers to lambda function versions
+    * CodeDeploy can help you automate traffic shift for lambda aliases
+* Deployment Limits:
+  * Lambda function deployment size (compressed .zip): 50MB
+  * size uncompressed deployment: 250MB
+  * size of environments variables: 4KB
 
 ### Lambda integration with ALB
 
@@ -913,6 +951,17 @@ Is one or more discrete data centers with redundant power newtworking and connec
 ### Lmabda - S3
 
 * Allows us execute a Lambda when an action is made in an configurated S3 bucket.
+
+### Lambda Networking
+
+* By default, your lambda function is launched outside your own VPC (in an AWS-owned VPC)\
+* Lambda in VPC:
+  * Define VPC
+  * Lambda will create a ENI
+  * AWSLambdaVPCAccessExecutionRole
+  * By default Lambda does not have internet access
+    * You need to use a NAT gateway
+    * You can use VPC endpints to privately access AWS services without NAT
 
 ## AWS Serverless - DynamoDB
 
@@ -974,3 +1023,51 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Conditional writes.
   * Atomic writes.
   * Batch writes.
+
+  ## AWS Serverless - API Gateway
+
+* No infrastructure to manage
+* Handle API Versioning
+* Integrations:
+  * Lambda Function
+  * HTTP (ALB)
+  * AWS Service
+* Endpoints types:
+  * Edge-Optimized (Default)
+  * Regional
+  * private
+* Security:
+  * User Authentication through:
+    * IAM Roles
+    * Amazon cognito
+    * Custom Authorizer
+  * Custom Domain Name HTTPS (through ACM)
+* We can create a stage variable to indicate the corresponding Lambda alias.
+* Integration types:
+  * Mocks 
+  * HTTP / AWS 
+    * Setud data mapping using mapping templates for request and response
+  * AWS_PROXY (Lambda Proxy)
+  * HTTP_PROXY (HTTP Proxy
+* API gateway has integration with Open API spec to import or export an API through  Open API spec
+* Logging & Tracing:
+  * Cloudwatch Logs
+  * X-ray
+* Cloudwatch Metrics
+  * CacheHitCount  & CacheMissCount
+  * Count
+  * IntegrationLatency
+  * Latency
+  * 4XX & 5XX errors
+* API Gateway Throttling
+  * 10000 rps across all API
+* You can configure CORS on API gateway
+* Security:
+  * IAM Permissions
+  * Resource Policies
+  * Cognito User Pools
+  * Lambda Authorizer
+* HTTP APIs VS REST APIs: HTTP is cheaper and does not support resource policies, only support proxy (Not support data mapping)
+* WebSocket
+  * Is for two-way communication
+  * Routing: It is used to make sure that you can route to a specific backend based on the routing expression
