@@ -1024,7 +1024,7 @@ Is one or more discrete data centers with redundant power newtworking and connec
   * Atomic writes.
   * Batch writes.
 
-  ## AWS Serverless - API Gateway
+## AWS Serverless - API Gateway
 
 * No infrastructure to manage
 * Handle API Versioning
@@ -1071,3 +1071,69 @@ Is one or more discrete data centers with redundant power newtworking and connec
 * WebSocket
   * Is for two-way communication
   * Routing: It is used to make sure that you can route to a specific backend based on the routing expression
+
+## AWS Serverless - SAM: Serverless Application Model
+
+* Framework for developing and deploying serverless applications (it is built on CloudFormation)
+* All the configuration is YAML code (you can recognize this one finding the "Transform" property in the YAML file)
+* Package and deploy:
+  * aws cloudformation package / sam package
+  * aws cloudformation deploy / sam deploy
+* Deployment process:
+  * sam build: crate a cloud formation yaml
+  * sam package: upload the cloudformation template and code to S3
+  * sam deploy: deploy application from S3
+* SAM CLI: Run lambda locally 
+* SAM Policy Templates:
+    * List of templates to apply permissions to your lambda functions example:
+      - S3ReadPolicy
+      - SQSPollerPolicy
+      - DynamoDBCrudPolicy
+* SAM is integrated with codedeploy to do deploy to Lambda aliases
+* Serverless Application Repository (SAR):
+  * Managed repository for serverless applications
+  * sam publish command
+
+## AWS Cloud Development Kit (CDK)
+
+* Define your cloud infrastructure using a familiar language: JS (TS), Python, Java and .Net
+* The code is "compiled" into a CloudFormation template (JSON/YAML)
+* You can deploy infrastructure and application runtime code together:
+  * Great for lambda functions
+  * Great for Docker containers in ECS / EKS
+* Commands:
+  - cdk bootstrap (bootstrap the CDK application)
+  - cdk synth (optional to synthesize as a cloudformation template)
+  - cdk deploy (deploy the CDK stack)
+  - cdk destroy (destroy the stack)
+
+## AWS step functions
+
+* Model your workflows as states machines (one per workflow)
+* Written in Json
+* SDK call, API gateway, Event bridge
+* Step function - states:
+  * Task state: do some work in your state machine
+  * parallel state: Begin parallel branches of execution
+* Error Handling
+  * you can use RETRY or CATCH
+* Types:
+  - Standard
+  - Express
+
+## AWS AppSync
+
+* Is a managed service that uses GraphQl
+* Retrieve data in real-time with WebSocket
+* For mobile apps: Local data access & data synchronization
+
+## AWS Amplify
+
+* Set of tools to create mobile and web applications
+* Important features:
+  * Authentication
+  * DataStore
+* Amplify Studio
+* Amplify CLI
+* Amplify Libraries
+* Amplify Hosting
