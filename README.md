@@ -1107,8 +1107,20 @@ Is one or more discrete data centers with redundant power newtworking and connec
   - cdk deploy (deploy the CDK stack)
   - cdk destroy (destroy the stack)
 
+## AWS Cognito
+
+* To give our users an identity so that they can interact with our application
+* Cognito User Pools:
+  * Create a serverless database of user for your web & mobile apps
+  * simple login, password reset, email & phone verification, MFA, Federated identities (Facebook, google, SAML), JWT
+  * integrations: AWS API gateway & ELB
+* Cognito Identity Pools:
+  * Provide users access to AWS
+* Cognito Sync
+
 ## AWS step functions
 
+* AWS Step Functions is a low-code visual workflow service used to orchestrate AWS services, automate business processes, and build Serverless applications. 
 * Model your workflows as states machines (one per workflow)
 * Written in Json
 * SDK call, API gateway, Event bridge
@@ -1123,6 +1135,7 @@ Is one or more discrete data centers with redundant power newtworking and connec
 
 ## AWS AppSync
 
+* AWS AppSync is a fully managed service that makes it easy to develop GraphQL APIs by handling the heavy lifting of securely connecting to data sources like DynamoDB, Lambda, and more.
 * Is a managed service that uses GraphQl
 * Retrieve data in real-time with WebSocket
 * For mobile apps: Local data access & data synchronization
